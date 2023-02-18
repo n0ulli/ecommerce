@@ -9,9 +9,7 @@ import 'package:tokoonline/controller/auth_controller.dart';
 import 'package:tokoonline/screen/auth/forgot_password_screen.dart';
 import 'package:tokoonline/screen/auth/register_screen.dart';
 import 'package:tokoonline/screen/home/main_home.dart';
-import 'package:tokoonline/widget/button_blue.dart';
-import 'package:tokoonline/widget/button_green_widget.dart';
-import 'package:tokoonline/widget/button_orange_widget.dart';
+import 'package:tokoonline/widget/material/button_green_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

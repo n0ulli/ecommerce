@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tokoonline/controller/home_controller.dart';
+import 'package:tokoonline/screen/home/view/home_screen.dart';
 import 'package:tokoonline/screen/home/view/profile_screen.dart';
 
 class MainHome extends StatefulWidget {
@@ -23,9 +24,7 @@ class _MainHomeState extends State<MainHome> {
           controller: controller,
           physics: BouncingScrollPhysics(),
           children: const <Widget>[
-            Center(
-              child: Text('First Page'),
-            ),
+            HomeScreen(),
             Center(
               child: Text('Second Page'),
             ),

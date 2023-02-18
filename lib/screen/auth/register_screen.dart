@@ -5,9 +5,7 @@ import 'package:get/get.dart';
 import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/image_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
-import 'package:tokoonline/widget/button_blue.dart';
-import 'package:tokoonline/widget/button_green_widget.dart';
-import 'package:tokoonline/widget/button_orange_widget.dart';
+import 'package:tokoonline/widget/material/button_green_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
