@@ -8,6 +8,8 @@ import 'package:tokoonline/constant/text_constant.dart';
 import 'package:tokoonline/widget/cart/item_cart_widget.dart';
 import 'package:tokoonline/widget/home/header_home_widget.dart';
 import 'package:tokoonline/widget/home/list_cart_widget.dart';
+import 'package:get/get.dart';
+import 'package:tokoonline/controller/login_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final logincontroller = Get.find<LoginController>();
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -25,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // SizedBox(height: size.height * 0.035,),
-            HeaderHomeWidget(),
+            HeaderHomeWidget(username: logincontroller.userName.value,),
             ListCartWidget(title: 'Produk Baru'),
             ListCartWidget(title: 'Sepatu'),
             ListCartWidget(title: 'Tas'),

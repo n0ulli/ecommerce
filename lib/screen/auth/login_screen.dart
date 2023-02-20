@@ -6,6 +6,7 @@ import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/image_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
 import 'package:tokoonline/controller/auth_controller.dart';
+import 'package:tokoonline/controller/login_controller.dart';
 import 'package:tokoonline/screen/auth/forgot_password_screen.dart';
 import 'package:tokoonline/screen/auth/register_screen.dart';
 import 'package:tokoonline/screen/home/main_home.dart';
@@ -21,6 +22,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   AuthController controller = new AuthController();
+  LoginController logincontroller = Get.put(LoginController());
+  final _phoneController = TextEditingController();
+  final _passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 40,
                         child: TextField(
                           maxLength: 25,
+                          controller: _phoneController,
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(12),
@@ -71,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 40,
                         child: TextField(
                           maxLength: 25,
+                          controller: _passController,
                           obscureText: controller.openPassLogin.value,
                           decoration: DecorationConstant.inputDecor().
                           copyWith(
@@ -104,7 +110,22 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 15),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: ButtonGreenWidget(text: 'Submit', onClick: ()=>Get.to(()=>MainHome()),)
+                  child: ButtonGreenWidget(
+                    text: 'Submit', 
+                    // onClick: ()=>Get.to(()=>MainHome()),
+                    onClick: () {
+                      logincontroller.getLogin(_phoneController.text,_passController.text).then((value) {
+                        if (value) {
+                          Get.to(()=>MainHome());
+                        }
+                        else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Terjadi kesalahan..'))
+                          );
+                        }
+                      });
+                    },
+                    )
               ),
               SizedBox(height: 15),
               Center(

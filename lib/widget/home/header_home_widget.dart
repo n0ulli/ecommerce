@@ -5,7 +5,8 @@ import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
 
 class HeaderHomeWidget extends StatelessWidget {
-  const HeaderHomeWidget({Key? key}) : super(key: key);
+  final String username;
+  const HeaderHomeWidget({Key? key, required this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class HeaderHomeWidget extends StatelessWidget {
           SizedBox(height: size.height * 0.035,),
           Row(
             children: [
-              Text('Hi, Akbar', style: TextConstant.medium.copyWith(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+              Text('Hi, '+username, style: TextConstant.medium.copyWith(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
               Expanded(child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
