@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   AuthController controller = new AuthController();
-  LoginController logincontroller = Get.put(LoginController());
+  AuthController logincontroller = Get.put(AuthController());
   final _phoneController = TextEditingController();
   final _passController = TextEditingController();
 

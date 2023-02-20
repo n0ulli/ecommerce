@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/image_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
-import 'package:tokoonline/controller/register_controller.dart';
+import 'package:tokoonline/controller/auth_controller.dart';
 import 'package:tokoonline/widget/material/button_green_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<RegisterScreen> {
-  RegisterController registercontroller = Get.put(RegisterController());
+  AuthController registercontroller = Get.put(AuthController());
   final _userController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
