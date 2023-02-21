@@ -8,8 +8,6 @@ import 'package:tokoonline/constant/text_constant.dart';
 import 'package:tokoonline/widget/cart/item_cart_widget.dart';
 import 'package:tokoonline/widget/home/header_home_widget.dart';
 import 'package:tokoonline/widget/home/list_cart_widget.dart';
-import 'package:get/get.dart';
-import 'package:tokoonline/controller/auth_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final logincontroller = Get.find<AuthController>();
   
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // SizedBox(height: size.height * 0.035,),
-            HeaderHomeWidget(username: logincontroller.userName.value,),
+            HeaderHomeWidget(),
             ListCartWidget(title: 'Produk Baru'),
             ListCartWidget(title: 'Sepatu'),
             ListCartWidget(title: 'Tas'),

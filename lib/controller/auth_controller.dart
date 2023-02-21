@@ -1,6 +1,8 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tokoonline/model/model_users.dart';
+import 'package:tokoonline/screen/home/main_home.dart';
 
 class AuthController extends GetxController{
 
@@ -9,16 +11,31 @@ class AuthController extends GetxController{
   RxString firstName = "".obs;
   RxString lastName = "".obs;
 
+  final phoneController = TextEditingController();
+  final passController = TextEditingController();
+
+  final userController = TextEditingController();
+  final emailController = TextEditingController();
+  final confirmpassController = TextEditingController();
+
   changeOpenPassLogin(bool val){
     openPassLogin.value = val;
   }
 
-  Future<bool> getLogin(String user, String pass) async {
+  resetTextControl(){
+    phoneController.text = "";
+    passController.text = "";
+    userController.text = "";
+    emailController.text = "";
+    confirmpassController.text = "";
+  }
+
+  Future<bool> getLogin() async {
     try {
-      if (user.isNotEmpty) {
-        if (pass.isNotEmpty) {
+      if (phoneController.text.isNotEmpty) {
+        if (passController.text.isNotEmpty) {
           List dataUser = await model_users()
-              .select_data_login(user, pass);
+              .select_data_login(phoneController.text, passController.text);
           if (dataUser.isNotEmpty) {
             var objData = dataUser[0];
             userName.value = objData['username'].toString();
@@ -26,40 +43,45 @@ class AuthController extends GetxController{
             lastName.value = objData['last_name'].toString();
             return true;
           } else {
-            // Toast("Login Gagal !", "Username atau password tidak sesuai", false);
+            Get.snackbar("Login Gagal !", "Username atau password tidak sesuai");
             return false;
           }
         } else {
-          // Toast("Peringatan", "Silahkan isi password Anda !", false);
+          Get.snackbar("Peringatan", "Silahkan isi password Anda !");
           return false;
         }
       } else {
-        // Toast("Peringatan", "Silahkan isi username Anda !", false);
+        Get.snackbar("Peringatan", "Silahkan isi username Anda !");
         return false;
       }
     } catch (e) {
-      // Toast("Peringatan", e.toString(), false);
+      Get.snackbar("Peringatan",  e.toString());
       return false;
     }
   }
   
-  Future<bool> insertUser(String user, String email, String phone, String pass) async {
-    if (user.isNotEmpty) {
-      var dataReady = await model_users().getUser(user);
+  Future<bool> insertUser() async {
+    if (passController.text!=confirmpassController.text) {
+      Get.snackbar("Peringatan", "Konfirmasi sandi tidak sama");
+      return false;
+    }
+
+    if (userController.text.isNotEmpty) {
+      var dataReady = await model_users().getUser(userController.text);
       if (dataReady.isNotEmpty) {
-        // Toast("Peringatan !", "User '${user}' sudah ada", false);
+        Get.snackbar("Peringatan", "User '${userController.text}' sudah ada");
         return false;
       } else {
         Map obj = {};
-        obj['user'] = user;
-        obj['email'] = email;
-        obj['phone'] = phone;
-        obj['pass'] = pass;
+        obj['user'] = userController.text;
+        obj['email'] = emailController.text;
+        obj['phone'] = phoneController.text;
+        obj['pass'] = passController.text;
         await model_users().insertUser(obj);
         return true;
       }
     } else {
-      // Toast("Peringatan !", "Username wajib di isi !", false);
+      Get.snackbar("Peringatan", "Username wajib di isi !");
       return false;
     }
   }

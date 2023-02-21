@@ -17,12 +17,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<RegisterScreen> {
   AuthController registercontroller = Get.put(AuthController());
-  final _userController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _passController = TextEditingController();
-  final _confirmpassController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -56,7 +51,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
-                        controller: _userController,
+                        controller: registercontroller.userController,
                         keyboardType: TextInputType.text,
                         decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan username",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
@@ -74,7 +69,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
-                        controller: _emailController,
+                        controller: registercontroller.emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan email",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
@@ -92,7 +87,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
-                        controller: _phoneController,
+                        controller: registercontroller.phoneController,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(12),
@@ -114,7 +109,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
-                        controller: _passController,
+                        controller: registercontroller.passController,
                         obscureText: true,
                         decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan kata sandi",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
@@ -132,7 +127,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
-                        controller: _confirmpassController,
+                        controller: registercontroller.confirmpassController,
                         obscureText: true,
                         decoration: DecorationConstant.inputDecor().copyWith(hintText: "Ulangi kata sandi",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
@@ -144,14 +139,10 @@ class _LoginScreenState extends State<RegisterScreen> {
               ButtonGreenWidget(
                 text: 'Daftar', 
                 onClick: (){
-                  registercontroller.insertUser(_userController.text, _emailController.text, _phoneController.text, _passController.text).then((value) {
+                  registercontroller.insertUser().then((value) {
                     if (value) {
+                      registercontroller.resetTextControl();
                       Get.back();
-                    }
-                    else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Terjadi kesalahan..'))
-                      );
                     }
                   });
                 },
@@ -159,7 +150,9 @@ class _LoginScreenState extends State<RegisterScreen> {
               SizedBox(height: 20),
               Center(
                 child: GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Get.back();
+                  },
                   child: RichText(
                     text: TextSpan(
                       text: 'Sudah punya akun ? ',

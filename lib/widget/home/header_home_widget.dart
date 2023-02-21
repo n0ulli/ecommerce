@@ -3,14 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
+import 'package:get/get.dart';
+import 'package:tokoonline/controller/auth_controller.dart';
 
 class HeaderHomeWidget extends StatelessWidget {
-  final String username;
-  const HeaderHomeWidget({Key? key, required this.username}) : super(key: key);
+  const HeaderHomeWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final logincontroller = Get.find<AuthController>();
     return Container(
       color: Colors.green,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -19,7 +21,7 @@ class HeaderHomeWidget extends StatelessWidget {
           SizedBox(height: size.height * 0.035,),
           Row(
             children: [
-              Text('Hi, '+username, style: TextConstant.medium.copyWith(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+              Text('Hi, '+logincontroller.userName.value, style: TextConstant.medium.copyWith(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
               Expanded(child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

@@ -2,7 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class model_users {
-  String baseUrl = "http://192.168.1.2";
+  // String baseUrl = "http://192.168.1.2";
+  String baseUrl = "http://172.16.2.57";
 
   Future<List> select_data_login(String username, String password) async {
     final response = await http.post(
