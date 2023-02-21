@@ -47,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         height: 40,
                         child: TextField(
+                          controller: controller.edtNohp,
                           maxLength: 25,
                           keyboardType: TextInputType.phone,
                           inputFormatters: [

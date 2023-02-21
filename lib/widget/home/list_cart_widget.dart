@@ -4,7 +4,8 @@ import 'package:tokoonline/widget/cart/item_cart_widget.dart';
 
 class ListCartWidget extends StatelessWidget {
   String? title;
-  ListCartWidget({Key? key, this.title}) : super(key: key);
+  Function? onItemClick;
+  ListCartWidget({Key? key, this.title, this.onItemClick}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,10 @@ class ListCartWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 6,
               itemBuilder: (BuildContext context, int index){
-                return ItemCartWidget();
+                return GestureDetector(
+                  onTap: ()=>onItemClick!(),
+                  child: ItemCartWidget(fullwidth: false,)
+                );
               },
             ),
           ),

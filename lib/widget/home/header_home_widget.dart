@@ -5,7 +5,8 @@ import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
 
 class HeaderHomeWidget extends StatelessWidget {
-  const HeaderHomeWidget({Key? key}) : super(key: key);
+  Function? onSearch;
+  HeaderHomeWidget({Key? key, this.onSearch}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,27 +43,30 @@ class HeaderHomeWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 15),
-          Container(
-            decoration: DecorationConstant.boxButton(radius: 8, color: Colors.white),
-            height: 40,
-            width: double.infinity,
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              children: [
-                Icon(CupertinoIcons.search, color: Colors.grey.shade300,),
-                SizedBox(width: 10),
-                Text('Cari barang disini...', style: TextConstant.medium.copyWith(color:Colors.grey.shade300, fontSize: 13),)
-              ],
+          GestureDetector(
+            onTap: ()=>onSearch!(),
+            child: Container(
+              decoration: DecorationConstant.boxButton(radius: 8, color: Colors.white),
+              height: 40,
+              width: double.infinity,
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  Icon(CupertinoIcons.search, color: Colors.grey.shade300,),
+                  SizedBox(width: 10),
+                  Text('Cari barang disini...', style: TextConstant.medium.copyWith(color:Colors.grey.shade300, fontSize: 13),)
+                ],
+              ),
+              // child: TextField(
+              //   enabled: false,
+              //   decoration: InputDecoration(
+              //     prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey.shade300,),
+              //     border: InputBorder.none,
+              //     contentPadding: EdgeInsets.only(top: 7),
+              //   ),
+              // ),
             ),
-            // child: TextField(
-            //   enabled: false,
-            //   decoration: InputDecoration(
-            //     prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey.shade300,),
-            //     border: InputBorder.none,
-            //     contentPadding: EdgeInsets.only(top: 7),
-            //   ),
-            // ),
           )
         ],
       ),
