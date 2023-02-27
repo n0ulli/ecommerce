@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/image_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
+import 'package:get/get.dart';
+import 'package:tokoonline/screen/home/view/address_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -58,7 +60,10 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 40),
               itemMenu('Data Akun', Icons.person),
-              itemMenu('Daftar Alamat', Icons.not_listed_location),
+              GestureDetector(
+                onTap:()=>Get.to(()=>AddressScreen()),
+                child: itemMenu('Daftar Alamat', Icons.not_listed_location),
+              ),
               itemMenu('Keamanan Akun', Icons.lock),
               itemMenu('Tentang Aplikasi', Icons.phone_android_rounded),
               itemMenu('Keluar', Icons.exit_to_app_rounded),

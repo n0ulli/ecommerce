@@ -2,7 +2,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tokoonline/model/model_users.dart';
-import 'package:tokoonline/screen/home/main_home.dart';
 
 class AuthController extends GetxController{
 
