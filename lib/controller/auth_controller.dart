@@ -1,87 +1,103 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:tokoonline/model/model_users.dart';
+import 'package:tokoonline/api/api.dart';
+import 'package:tokoonline/constant/dialog_constant.dart';
+import 'package:tokoonline/model/auth/model_user.dart';
 
 class AuthController extends GetxController{
 
   RxBool openPassLogin = true.obs;
-  RxString userName = "".obs;
-  RxString firstName = "".obs;
-  RxString lastName = "".obs;
-
-  final phoneController = TextEditingController();
-  final passController = TextEditingController();
-
-  final userController = TextEditingController();
-  final emailController = TextEditingController();
-  final confirmpassController = TextEditingController();
+  TextEditingController edtNama = TextEditingController();
+  TextEditingController edtEmail = TextEditingController();
+  TextEditingController edtNohp = TextEditingController();
+  TextEditingController edtPass = TextEditingController();
+  TextEditingController edtConfirmPass = TextEditingController();
 
   changeOpenPassLogin(bool val){
     openPassLogin.value = val;
   }
 
-  resetTextControl(){
-    phoneController.text = "";
-    passController.text = "";
-    userController.text = "";
-    emailController.text = "";
-    confirmpassController.text = "";
-  }
-
-  Future<bool> getLogin() async {
-    try {
-      if (phoneController.text.isNotEmpty) {
-        if (passController.text.isNotEmpty) {
-          List dataUser = await model_users()
-              .select_data_login(phoneController.text, passController.text);
-          if (dataUser.isNotEmpty) {
-            var objData = dataUser[0];
-            userName.value = objData['username'].toString();
-            firstName.value = objData['first_name'].toString();
-            lastName.value = objData['last_name'].toString();
-            return true;
-          } else {
-            Get.snackbar("Login Gagal !", "Username atau password tidak sesuai");
-            return false;
-          }
-        } else {
-          Get.snackbar("Peringatan", "Silahkan isi password Anda !");
-          return false;
-        }
-      } else {
-        Get.snackbar("Peringatan", "Silahkan isi username Anda !");
-        return false;
-      }
-    } catch (e) {
-      Get.snackbar("Peringatan",  e.toString());
-      return false;
+  validation({BuildContext? context, void callback(result, exception)?}){
+    if(edtNohp.text == ''){
+      // Get.snackbar('Title', 'salah woou');
+      DialogConstant.alertError('No Handpone tidak boleh kosong!');
+    }else if(edtPass.text == ''){
+      DialogConstant.alertError('Password tidak boleh kosong!');
+    }else{
+      postLogin(
+        context: context,
+        callback: (result, error)=>callback!(result, error)
+      );
     }
   }
-  
-  Future<bool> insertUser() async {
-    if (passController.text!=confirmpassController.text) {
-      Get.snackbar("Peringatan", "Konfirmasi sandi tidak sama");
-      return false;
-    }
 
-    if (userController.text.isNotEmpty) {
-      var dataReady = await model_users().getUser(userController.text);
-      if (dataReady.isNotEmpty) {
-        Get.snackbar("Peringatan", "User '${userController.text}' sudah ada");
-        return false;
-      } else {
-        Map obj = {};
-        obj['user'] = userController.text;
-        obj['email'] = emailController.text;
-        obj['phone'] = phoneController.text;
-        obj['pass'] = passController.text;
-        await model_users().insertUser(obj);
-        return true;
+  postLogin({
+    BuildContext? context,
+    void callback(result, exception)?}){
+    var post = new Map<String, dynamic>();
+    var header = new Map<String, String>();
+
+    header['Content-Type'] = 'application/json';
+    post['username'] = edtNohp.text;
+    post['password'] = edtPass.text;
+
+    DialogConstant.loading(context!, 'Memperoses...');
+
+    API.basePost('/login.php', post, header, true, (result, error) {
+      Get.back();
+      if(error != null){
+        callback!(null, error);
       }
-    } else {
-      Get.snackbar("Peringatan", "Username wajib di isi !");
-      return false;
+      if(result != null){
+        callback!(result, null);
+      }
+    });
+  }
+
+  validationRegister({BuildContext? context, void callback(result, exception)?}){
+    if(edtNama.text == ''){
+      DialogConstant.alertError('Nama tidak boleh kosong!');
+    }else if(edtEmail.text == ''){
+      DialogConstant.alertError('Email tidak boleh kosong!');
+    }else if(edtNohp.text == ''){
+      DialogConstant.alertError('Nomor Telepon tidak boleh kosong!');
+    }else if(edtPass.text == ''){
+      DialogConstant.alertError('Password tidak boleh kosong!');
+    }else if(edtConfirmPass.text == ''){
+      DialogConstant.alertError('Konfirmasi Password tidak boleh kosong!');
+    }else if(edtPass.text != edtConfirmPass.text){
+      DialogConstant.alertError('Password dan Konfirmasi Password tidak sama!');
+    }else{
+      postRegister(
+          context: context,
+          callback: (result, error)=>callback!(result, error)
+      );
     }
+  }
+
+  postRegister({
+    BuildContext? context,
+    void callback(result, exception)?}){
+    var post = new Map<String, dynamic>();
+    var header = new Map<String, String>();
+
+    header['Content-Type'] = 'application/json';
+    post['username'] = edtNama.text;
+    post['email'] = edtEmail.text;
+    post['phone'] = edtNohp.text;
+    post['password'] = edtPass.text;
+
+    DialogConstant.loading(context!, 'Memperoses...');
+
+    API.basePost('/login.php', post, header, true, (result, error) {
+      Get.back();
+      if(error != null){
+        callback!(null, error);
+      }
+      if(result != null){
+        callback!(result, null);
+      }
+    });
   }
 }

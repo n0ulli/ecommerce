@@ -4,7 +4,8 @@ import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
 
 class ItemCartWidget extends StatelessWidget {
-  const ItemCartWidget({Key? key}) : super(key: key);
+  bool? fullwidth;
+  ItemCartWidget({Key? key, this.fullwidth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class ItemCartWidget extends StatelessWidget {
         topRight: 8, topLeft: 8, bottomRight: 8, bottomLeft: 8,
         spreadRadius: 0.5, offset: Offset(0, 0), blurRadius: 3, colorShadow: Colors.grey.shade300
       ),
-      width: size.width * 0.36,
+      // width: size.width * 0.36,
       margin: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +24,7 @@ class ItemCartWidget extends StatelessWidget {
           CachedNetworkImage(
             imageUrl: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/dd5856ece5894f9987e9ae890026a723_9366/Forum_Low_CL_Shoes_White_HQ6874_01_standard.jpg',
             imageBuilder: (context, imageProvider) => Container(
-              width: size.width * 0.36,
+              width: fullwidth! ? null:size.width * 0.36,
               height:size.height * 0.14,
               decoration: BoxDecoration(
                 // shape: BoxShape.circle,

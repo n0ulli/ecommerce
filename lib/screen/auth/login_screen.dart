@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tokoonline/constant/decoration_constant.dart';
+import 'package:tokoonline/constant/dialog_constant.dart';
 import 'package:tokoonline/constant/image_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
 import 'package:tokoonline/controller/auth_controller.dart';
 import 'package:tokoonline/screen/auth/forgot_password_screen.dart';
 import 'package:tokoonline/screen/auth/register_screen.dart';
 import 'package:tokoonline/screen/home/main_home.dart';
+import 'package:tokoonline/utils/local_data.dart';
 import 'package:tokoonline/widget/material/button_green_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,6 +24,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   AuthController controller = new AuthController();
   AuthController logincontroller = Get.put(AuthController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    clearCart();
+  }
+
+  clearCart(){
+    LocalData.removeAllPreference();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         height: 40,
                         child: TextField(
+                          controller: controller.edtNohp,
                           maxLength: 25,
-                          controller: logincontroller.phoneController,
-                          keyboardType: TextInputType.phone,
+                          // keyboardType: TextInputType.phone,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(12),
                             FilteringTextInputFormatter.deny(RegExp('[\\-|\\,|\\.|\\#|\\*]'))
@@ -73,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 40,
                         child: TextField(
                           maxLength: 25,
-                          controller: logincontroller.passController,
+                          controller: controller.edtPass,
                           obscureText: controller.openPassLogin.value,
                           decoration: DecorationConstant.inputDecor().
                           copyWith(
@@ -107,18 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 15),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: ButtonGreenWidget(
-                    text: 'Submit', 
-                    // onClick: ()=>Get.to(()=>MainHome()),
-                    onClick: () {
-                      logincontroller.getLogin().then((value) {
-                        if (value) {
-                          logincontroller.resetTextControl();
-                          Get.to(()=>MainHome());
-                        }
-                      });
-                    },
-                    )
+                  child: ButtonGreenWidget(text: 'Submit', onClick: ()=>controller.validation(
+                    context: context,
+                    callback: (result, error){
+                      if(result != null){
+                        Get.to(()=>MainHome());
+                      }else{
+                        DialogConstant.alertError('Maaf ada kesalahan');
+                      }
+                    }
+                  ),)
               ),
               SizedBox(height: 15),
               Center(
