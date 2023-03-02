@@ -1,0 +1,10 @@
+RewriteEngine On # Turn on the rewriting engine
+RewriteRule ^login/?$ login.php [NC,L]
+RewriteRule ^register/tambahuser?$ register.php/tambahuser [NC,L]
+RewriteRule ^register/ubahuser?$ register.php/ubahuser [NC,L]
+#<IfModule mod_rewrite.c>
+#RewriteEngine on
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_FILENAME}.html-f
+#RewriteRule ^(.*)$ $1.html
+#</IfModule>

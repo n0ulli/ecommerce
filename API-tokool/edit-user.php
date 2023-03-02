@@ -7,10 +7,10 @@
 	$user = $_POST['username'];
 	$email = $_POST['email'];
 	$phone = $_POST['phone'];
-	$pass= $_POST['password'];
+	//$pass= $_POST['password'];
 	
-	$result = $connect->query("INSERT INTO ".$table." (username,email,phone,password) 
-							   VALUES ('".$user."','".$email."','".$phone."',md5('".$pass."'))");
+	$result = $connect->query("UPDATE ".$table." set email='".$email."', phone='".$phone."' 
+					 where username='".$user."';");
 	
 	if($result)
 	{
@@ -23,7 +23,7 @@
 	{
 		$response=array(
 		 'error' => true,
-		 'message' =>'Daftar user gagal'
+		 'message' =>'Ubah user gagal'
 		);
 	}
 	header('Content-Type: application/json');
