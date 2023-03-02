@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tokoonline/constant/decoration_constant.dart';
+import 'package:tokoonline/constant/dialog_constant.dart';
 import 'package:tokoonline/constant/image_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
+import 'package:tokoonline/controller/auth_controller.dart';
 import 'package:tokoonline/widget/material/button_green_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -15,6 +19,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<RegisterScreen> {
+
+  AuthController controller = AuthController();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -48,8 +55,9 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
+                        controller: controller.edtNama,
                         keyboardType: TextInputType.text,
-                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan nomor teleponmu",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
+                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan Nama",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
                     )
                   ],
@@ -65,8 +73,9 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
+                        controller: controller.edtEmail,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan nomor teleponmu",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
+                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan Email",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
                     )
                   ],
@@ -82,6 +91,7 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
+                        controller: controller.edtNohp,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(12),
@@ -103,8 +113,9 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
+                        controller: controller.edtPass,
                         obscureText: true,
-                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan nomor teleponmu",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
+                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan Kata Sandi",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
                     )
                   ],
@@ -120,19 +131,30 @@ class _LoginScreenState extends State<RegisterScreen> {
                       height: 40,
                       child: TextField(
                         maxLength: 25,
+                        controller: controller.edtConfirmPass,
                         obscureText: true,
-                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan nomor teleponmu",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
+                        decoration: DecorationConstant.inputDecor().copyWith(hintText: "Masukkan Konfirmasi Kata Sandi",counterText: '', contentPadding: EdgeInsets.only(top: 0)),
                       ),
                     )
                   ],
                 ),
               ),
               SizedBox(height: 35),
-              ButtonGreenWidget(text: 'Daftar', onClick: (){},),
+              ButtonGreenWidget(text: 'Daftar', onClick: ()=>controller.postRegister(
+                context: context,
+                callback: (result, error){
+                  if(result != null){
+                    DialogConstant.alertError('Pendaftaran Berhasil');
+                  }
+                  if(error != null){
+                    DialogConstant.alertError('Pendaftaran Gagal');
+                  }
+                }
+              ),),
               SizedBox(height: 20),
               Center(
                 child: GestureDetector(
-                  onTap: (){},
+                  onTap: ()=>Get.back(),
                   child: RichText(
                     text: TextSpan(
                       text: 'Sudah punya akun ? ',

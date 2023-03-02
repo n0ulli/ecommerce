@@ -37,8 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
               title: 'Produk Baru',
               onItemClick: ()=>Get.to(()=>DetailProductScreen()),
             ),
-            ListCartWidget(title: 'Sepatu'),
-            ListCartWidget(title: 'Tas'),
+            ListCartWidget(title: 'Sepatu', onItemClick: ()=>Get.to(()=>DetailProductScreen())),
+            ListCartWidget(title: 'Tas', onItemClick: ()=>Get.to(()=>DetailProductScreen())),
 
           ],
         ),

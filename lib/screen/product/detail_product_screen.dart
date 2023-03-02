@@ -1,23 +1,42 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tokoonline/constant/decoration_constant.dart';
 import 'package:tokoonline/constant/text_constant.dart';
+import 'package:tokoonline/controller/produk/product_controller.dart';
+import 'package:tokoonline/model/sku/model_sku.dart';
+import 'package:tokoonline/screen/checkout/checkout_screen.dart';
+import 'package:tokoonline/utils/local_data.dart';
+import 'package:tokoonline/widget/appbar_widget.dart';
 import 'package:tokoonline/widget/material/button_green_widget.dart';
 
-class DetailProductScreen extends StatelessWidget {
+class DetailProductScreen extends StatefulWidget {
   const DetailProductScreen({Key? key}) : super(key: key);
+
+  @override
+  State<DetailProductScreen> createState() => _DetailProductScreenState();
+}
+
+class _DetailProductScreenState extends State<DetailProductScreen> {
+
+  ProductController controller = Get.put(ProductController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.loadCart();
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text('Adidas Forum Low CL', style: TextConstant.medium.copyWith(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),),
-        elevation: 0,
-      ),
+      appBar: AppBarWidget(title: 'Adidas Forum Low CL'),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -53,20 +72,31 @@ class DetailProductScreen extends StatelessWidget {
                   ],
                 ),
               )
-              
+
             ],
           ),
         ),
       ),
       bottomNavigationBar: Wrap(
         children: [
-          Container(
+          Obx(()=>Container(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(CupertinoIcons.cart, size: 30,),
-                SizedBox(width: size.width * 0.15),
+                Expanded(child: Container(
+                  child: Stack(children: [
+                    Icon(CupertinoIcons.cart, size: 30,),
+                    controller.dataCart.value.length > 0 ? Positioned(
+                      left: 20,
+                      child: Container(
+                        height: 13, width: 13,
+                        decoration: DecorationConstant.boxCircle(color: Colors.redAccent),
+                      ),
+                    ):SizedBox()
+                  ]),
+                )),
+                // SizedBox(width: size.width * 0.15),
                 Container(
                   width: size.width * 0.27,
                   child: buttonBuy(),
@@ -78,7 +108,7 @@ class DetailProductScreen extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ))
         ],
       ),
     );
@@ -86,7 +116,7 @@ class DetailProductScreen extends StatelessWidget {
 
   buttonBuy(){
     return GestureDetector(
-      onTap: (){},
+      onTap: ()=>Get.to(()=>CheckOutScreen()),
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
@@ -100,7 +130,17 @@ class DetailProductScreen extends StatelessWidget {
 
   buttonCart(){
     return GestureDetector(
-      onTap: (){},
+      onTap: () async {
+        ModelSKU model = ModelSKU();
+        model.id=1;
+        model.sku_name = ' Adidas Forum Low CL';
+        model.detail = 'test';
+        model.category_id = 1;
+        model.dicount = 0;
+        model.price = 1000000;
+        model.qty = 1;
+        controller.saveToCart(model);
+      },
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
